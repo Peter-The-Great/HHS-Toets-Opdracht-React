@@ -9,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
-builder.Services
-    .AddDbContext<ApplicationDbContext>(config =>
+builder.Services.AddDbContext<ApplicationDbContext>(config =>
     {
         config.UseInMemoryDatabase("WeatherDb");
     });

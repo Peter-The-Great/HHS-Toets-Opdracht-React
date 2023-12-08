@@ -53,10 +53,10 @@ export class FetchData extends Component {
             <tbody>
                 <tr>
                     <td>
-                        {forecast.date}
+                        {forecast?.date}
                     </td>
-                    <td>{forecast.temperatureC}</td>
-                    <td>{forecast.summary}</td>
+                    <td>{forecast?.temperatureC}</td>
+                    <td>{forecast?.summary}</td>
                 </tr>
             </tbody>
         
@@ -69,7 +69,7 @@ export class FetchData extends Component {
       ? <p><em>Loading...</em></p>
           : FetchData.renderForecastsTable(this.state.forecasts);
 
-      let singleForecast = this.state.loading || !this.state.singleForecast
+      let singleForecast = this.state.loading
           ? <p><em>Loading...</em></p>
           : FetchData.renderSingleForecast(this.state.singleForecast);
 

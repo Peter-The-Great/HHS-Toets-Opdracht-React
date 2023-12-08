@@ -27,7 +27,10 @@ public class WeatherForecastController : ControllerBase
     {
         var item = _repo.GetWeatherForecast(id);
 
-        ArgumentNullException.ThrowIfNull(item);
+        if(item == null)
+        {
+            return null;
+        }
 
         return item;
     }
