@@ -5,11 +5,14 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+      this.state = {
+          forecasts: [], singleForecast: null, loading: true
+      };
   }
 
   componentDidMount() {
-    this.populateWeatherData();
+      this.populateWeatherData();
+      this.fetchOne();
   }
 
   static renderForecastsTable(forecasts) {
@@ -35,25 +38,49 @@ export class FetchData extends Component {
         </tbody>
       </table>
     );
-  }
+    }
+
+    static renderSingleForecast(forecast) {
+        return (<div>
+            <span>Date: {forecast.date}</span><br />
+            <span>Temp: {forecast.temperatureC}</span><br />
+            <span>Summary: {forecast.summary}</span>
+        </div>);
+    }
 
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+          : FetchData.renderForecastsTable(this.state.forecasts);
+
+      let singleForecast = this.state.loading || !this.state.singleForecast
+          ? <p><em>Loading...</em></p>
+          : FetchData.renderSingleForecast(this.state.singleForecast);
 
     return (
       <div>
         <h1 id="tableLabel">Weather forecast</h1>
         <p>This component demonstrates fetching data from the server.</p>
-        {contents}
+            {contents}
+
+            <h1>Single forecast</h1>
+            {singleForecast}
       </div>
     );
   }
 
   async populateWeatherData() {
-    const response = await fetch('weatherforecast');
-    const data = await response.json();
+      const response = await fetch('weatherforecast');
+    
+      const data = await response.json();
+
     this.setState({ forecasts: data, loading: false });
-  }
+    }
+
+    async fetchOne() {
+        const response = await fetch('weatherforecast/test1');
+        const data = await response.json();
+        console.log(data);
+        this.setState({ singleForecast: data, loading: false });
+    } 
 }

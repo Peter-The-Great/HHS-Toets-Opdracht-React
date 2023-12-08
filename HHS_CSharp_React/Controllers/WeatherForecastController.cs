@@ -11,6 +11,22 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
+    private static readonly List<WeatherForecast> weatherForecasts = new List<WeatherForecast>()
+    {
+        new WeatherForecast()
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now),
+            Summary = "Test1",
+            TemperatureC = 25
+        },
+        new WeatherForecast()
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now),
+            Summary = "Test2",
+            TemperatureC = 27
+        }
+    };
+
     private readonly ILogger<WeatherForecastController> _logger;
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -28,6 +44,18 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("{name}")]
+    public WeatherForecast GetByName(string name)
+    {
+        var item = weatherForecasts
+            .FirstOrDefault(x =>
+            string.Equals(x.Summary, name, StringComparison.InvariantCultureIgnoreCase));
+
+        ArgumentNullException.ThrowIfNull(item);
+
+        return item;
     }
 }
 
