@@ -36,5 +36,15 @@ public class WeatherForecastController : ControllerBase
     }
 
     // TODO: implementeer weather forecast toevoegen
+    [HttpPost]
+    public WeatherForecast Add(WeatherForecast weatherForecast)
+    {
+        if(weatherForecast != null)
+        {
+            return _repo.Add(weatherForecast);
+        }
+
+        return null;
+    }
 }
 

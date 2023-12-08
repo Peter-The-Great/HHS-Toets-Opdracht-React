@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { EditWeatherForecastForm } from './EditWeatherForecastForm';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -8,6 +9,8 @@ export class FetchData extends Component {
       this.state = {
           forecasts: [], singleForecast: null, loading: true
       };
+
+      this.populateWeatherData = this.populateWeatherData.bind(this);
   }
 
   componentDidMount() {
@@ -20,18 +23,17 @@ export class FetchData extends Component {
       <table className="table table-striped" aria-labelledby="tableLabel">
         <thead>
           <tr>
-            <th>Date</th>
+         
             <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
             <th>Summary</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
+          {forecasts.map((forecast, index) =>
+              <tr key={index}>
+              
               <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
+ 
               <td>{forecast.summary}</td>
             </tr>
           )}
@@ -44,7 +46,7 @@ export class FetchData extends Component {
         return (<table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
-                    <th>Date</th>
+                  
                     <th>Temp. (C)</th>
                     
                     <th>Summary</th>
@@ -52,9 +54,7 @@ export class FetchData extends Component {
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                        {forecast?.date}
-                    </td>
+                    
                     <td>{forecast?.temperatureC}</td>
                     <td>{forecast?.summary}</td>
                 </tr>
@@ -81,6 +81,8 @@ export class FetchData extends Component {
 
             <h1>Single forecast</h1>
             {singleForecast}
+
+            <EditWeatherForecastForm populateWeatherData={this.populateWeatherData } />
       </div>
     );
   }

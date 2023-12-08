@@ -8,6 +8,8 @@ namespace HHS_CSharp_React.Repositories
         IEnumerable<WeatherForecast> GetWeatherForecasts();
 
         WeatherForecast? GetWeatherForecast(int id);
+
+        WeatherForecast Add(WeatherForecast weatherForecast);
     }
 }
 

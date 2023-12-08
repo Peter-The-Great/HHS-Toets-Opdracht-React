@@ -21,6 +21,12 @@ namespace HHS_CSharp_React.Repositories
         }
 
         // TODO: implementeer weather forecast toevoegen
+        public WeatherForecast Add(WeatherForecast weatherForecast)
+        {
+            _context.WeatherForecasts.Add(weatherForecast);
+            _context.SaveChanges();
+            return weatherForecast;
+        }
     }
 }
 
