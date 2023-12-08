@@ -94,7 +94,7 @@ export class FetchData extends Component {
     }
 
     async fetchOne() {
-        const response = await fetch('weatherforecast/test1');
+        const response = await fetch('weatherforecast/1');
         const data = await response.json();
         console.log(data);
         this.setState({ singleForecast: data, loading: false });

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HHS_CSharp_React.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HHS_CSharp_React.Controllers;
 
@@ -6,56 +7,31 @@ namespace HHS_CSharp_React.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-    private static readonly List<WeatherForecast> weatherForecasts = new List<WeatherForecast>()
-    {
-        new WeatherForecast()
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now),
-            Summary = "Test1",
-            TemperatureC = 25
-        },
-        new WeatherForecast()
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now),
-            Summary = "Test2",
-            TemperatureC = 27
-        }
-    };
-
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly IWeatherForecastRepository _repo;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IWeatherForecastRepository repo)
     {
         _logger = logger;
+        _repo = repo;
     }
 
     [HttpGet]
     public IEnumerable<WeatherForecast> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+        return _repo.GetWeatherForecasts() ?? new List<WeatherForecast>();
     }
 
-    [HttpGet("{name}")]
-    public WeatherForecast GetByName(string name)
+    [HttpGet("{id}")]
+    public WeatherForecast GetByName(int id)
     {
-        var item = weatherForecasts
-            .FirstOrDefault(x =>
-            string.Equals(x.Summary, name, StringComparison.InvariantCultureIgnoreCase));
+        var item = _repo.GetWeatherForecast(id);
 
         ArgumentNullException.ThrowIfNull(item);
 
         return item;
     }
+
+    // TODO: implementeer weather forecast toevoegen
 }
 
