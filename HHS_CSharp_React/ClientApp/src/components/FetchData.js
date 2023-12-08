@@ -41,11 +41,27 @@ export class FetchData extends Component {
     }
 
     static renderSingleForecast(forecast) {
-        return (<div>
-            <span>Date: {forecast.date}</span><br />
-            <span>Temp: {forecast.temperatureC}</span><br />
-            <span>Summary: {forecast.summary}</span>
-        </div>);
+        return (<table className="table table-striped" aria-labelledby="tableLabel">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Temp. (C)</th>
+                    
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {forecast.date}
+                    </td>
+                    <td>{forecast.temperatureC}</td>
+                    <td>{forecast.summary}</td>
+                </tr>
+            </tbody>
+        
+        </table>
+        );
     }
 
   render() {
